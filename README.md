@@ -1,4 +1,4 @@
-# python-fr-torch
+# py-similarity-learning
 ## Description
 Facial Recognition using Similarity Learning method
 
