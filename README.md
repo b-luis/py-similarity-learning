@@ -5,8 +5,9 @@ Facial Recognition using Similarity Learning method
 ## Usage
 Clone repository
 ```
-git clone https://github.com/bereniceluis/python-fr-torch.git
-cd python-fr-torch
+git clone https://github.com/b-luis/py-similarity-learning.git
+cd py-similarity-learning
+
 ```  
 
 Requirements
