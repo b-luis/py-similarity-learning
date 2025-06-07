@@ -82,4 +82,13 @@ Do face recognition
 ```
 python fr.py
 ```
+## ⚡ CUDA Support (Optional but Recommended)
 
+To speed up training and face recognition, it's highly recommended to use a GPU with CUDA support.
+
+Windows Users:
+ - Ensure you have a CUDA-compatible NVIDIA GPU.
+ - Install the correct versions of CUDA Toolkit and cuDNN.
+ - Verify torch.cuda.is_available() returns True in Python to confirm CUDA is working.
+     
+> 💡 Without CUDA, the training and recognition processes will fall back to CPU and can be significantly slower.
