@@ -1,19 +1,47 @@
 # py-similarity-learning
-Facial Recognition using Similarity Learning method
+Facial recognition using a similarity learning method with ArcFace and YOLO-based face detection.
 
-## Usage
+## 🧬 How It Works: Similarity Learning & Facial Embeddings
+
+This project uses a **Similarity Learning** approach to perform facial recognition, instead of traditional classification.
+
+### 🧠 What is Similarity Learning?
+
+In traditional classification, a model learns to predict a fixed set of classes (e.g. "Alice", "Bob", "Charlie"). However, this doesn't scale well for real-world use where new people can be added anytime.
+
+**Similarity Learning** solves this by learning how to **compare faces** rather than classify them.
+
+- The model learns to say:  
+  "**How similar is this face to another face?**"  
+
+  Instead of:  
+  "**Which person is this?**"
+
+1. **Face Detection**  
+   YOLOv5 (trained on faces) detects and crops the face from the image.
+
+2. **Facial Embedding Extraction**  
+   A deep neural network (iResNet100 with ArcFace loss) converts each face into a **128D or 512D vector**, called a **facial embedding**.
+
+3. **Embedding Comparison**  
+   When a new face is captured:
+   - It is converted into an embedding.
+   - That embedding is compared to existing embeddings using a similarity metric (like **cosine similarity** or **Euclidean distance**).
+   - If it's similar enough to a known face, it’s recognized.
+
+## 👾 Usage
 Clone repository
 ```
 git clone https://github.com/b-luis/py-similarity-learning.git
 cd py-similarity-learning
 ```  
 
-Requirements
+🛠️ Requirements
 ```
 pip install -r requirements.txt
 ```
 
-Download weights
+📦 Download weights
 | Pre-trained               | Backbone            | **Description**                                                                | Download link                                                                                | Size     |
 |:--------------------------|:--------------------|:-------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------|:---------|
 | backbone.pth              | iresnet100          | for feature extraction with arcface loss function. save in backbones folder    | [File](https://drive.google.com/file/d/1TVfnDTCYa1bS9Yat-h2SAos0qjAwN3vI/view?usp=drive_link)| 249.1 MB |
@@ -21,7 +49,7 @@ Download weights
 | yolov5s-face.pt           | YOLO5-CSPNet        | used for face detection, but much smaller in size. save in weights folder      | [File](https://drive.google.com/file/d/11oKjCKTVVTXqX5T9GJ9mdPAxCu9eZS2S/view?usp=drive_link)| 54.4 MB  |
  
 
-Overall directory structure
+📁 Overall directory structure
 
 ```
 ├── dataset                      # for training
@@ -53,7 +81,7 @@ Overall directory structure
 ├── train.py                     # train added dataset
 ```
 
-## Training
+## 🧠 Training
 
 Create folders inside the add-train-data folder
 ```
@@ -80,13 +108,23 @@ Do face recognition
 ```
 python fr.py
 ```
-## ⚡ CUDA Support (Optional but Recommended)
+## ⚡ GPU Acceleration (CUDA)
 
-To speed up training and face recognition, it's highly recommended to use a GPU with CUDA support.
+To speed up training and recognition, a CUDA-compatible NVIDIA GPU is recommended.
 
-Windows Users:
- - Ensure you have a CUDA-compatible NVIDIA GPU.
- - Install the correct versions of CUDA Toolkit and cuDNN.
- - Verify torch.cuda.is_available() returns True in Python to confirm CUDA is working.
+- **Windows/Linux (NVIDIA GPU)**:
+  - Install the correct [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) and cuDNN.
+  - Verify by running `torch.cuda.is_available()` in Python.
+  - This significantly improves performance over CPU.
+
+- **macOS**:
+  - CUDA is **not supported**.
+  - Training and recognition will run on **CPU** only, which is slower.
+  - Works fine for small datasets or light usage.
+
+- **AMD GPUs / Apple Silicon**:
+  - Currently not supported for GPU acceleration in this project.
+
+ - Verify `torch.cuda.is_available()` returns True in Python to confirm CUDA is working.
      
 > 💡 Without CUDA, the training and recognition processes will fall back to CPU and can be significantly slower.
